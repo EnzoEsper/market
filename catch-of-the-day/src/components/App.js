@@ -97,7 +97,7 @@ class App extends React.Component {
             {Object.keys(this.state.fishes).map(key => <Fish key={key} index={key} details={this.state.fishes[key]} addToOrder={this.addToOrder}/>)}
           </ul>
         </div>
-        <Inventory addFish={this.addFish} updateFish={this.updateFish} loadSampleFishes={this.loadSampleFishes} fishes={this.state.fishes} deleteFish={this.deleteFish}/>
+        <Inventory addFish={this.addFish} updateFish={this.updateFish} loadSampleFishes={this.loadSampleFishes} fishes={this.state.fishes} deleteFish={this.deleteFish} storeId={this.props.match.params.storeId}/>
         <Order fishes={this.state.fishes} order={this.state.order} removeFromOrder={this.removeFromOrder}/>
       </div>
     )
