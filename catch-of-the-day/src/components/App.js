@@ -29,6 +29,7 @@ class App extends React.Component {
   componentDidUpdate(){
     localStorage.setItem(this.props.match.params.storeId, JSON.stringify(this.state.order));
   }
+
   componentWillUnmount(){
     base.removeBinding(this.ref);
   };
@@ -49,7 +50,17 @@ class App extends React.Component {
     fishes[key] = updatedFish;
     // 3. Set that to state
     this.setState({ fishes });
-  }
+  };
+
+  deleteFish = key => {
+    // 1. Take a copy of state
+    const fishes = { ...this.state.fishes };
+    // 2. For remove from firebase we have to set it to null
+    fishes[key] = null;
+    // 3. update state
+    this.setState({ fishes });
+  };
+
   loadSampleFishes = () => {
     this.setState({ fishes: sampleFishes });
   };
@@ -63,6 +74,15 @@ class App extends React.Component {
     this.setState({ order });
   };
 
+  removeFromOrder = key => {
+    // 1. Take a copy of state
+    const order = {...this.state.order};
+    // 2. remove that item from order
+    delete order[key];
+    // 3. Call setState to update our state 
+    this.setState({ order });
+  };
+
   render(){
     return(
       <div className="catch-of-the-day">
@@ -72,8 +92,8 @@ class App extends React.Component {
             {Object.keys(this.state.fishes).map(key => <Fish key={key} index={key} details={this.state.fishes[key]} addToOrder={this.addToOrder}/>)}
           </ul>
         </div>
-        <Inventory addFish={this.addFish} updateFish={this.updateFish} loadSampleFishes={this.loadSampleFishes} fishes={this.state.fishes}/>
-        <Order fishes={this.state.fishes} order={this.state.order} />
+        <Inventory addFish={this.addFish} updateFish={this.updateFish} loadSampleFishes={this.loadSampleFishes} fishes={this.state.fishes} deleteFish={this.deleteFish}/>
+        <Order fishes={this.state.fishes} order={this.state.order} removeFromOrder={this.removeFromOrder}/>
       </div>
     )
   }
